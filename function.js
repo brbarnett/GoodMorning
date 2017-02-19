@@ -16,6 +16,7 @@ var weather = Promise.resolve(4);
 
 Promise.all([nhlSchedule, weather]).then(values => {
     parseNhl(values[0]);
+    parseWeather(values[1]);
 });
 
 function parseNhl(data) {
@@ -34,4 +35,8 @@ function parseNhl(data) {
     var gameTime = new Date(wingsGame.gameDate);
 
     console.log(`${wingsGame.teams.away.team.name} @ ${wingsGame.teams.home.team.name}, ${gameTime}`)
+}
+
+function parseWeather(data) {
+
 }
