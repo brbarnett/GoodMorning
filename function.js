@@ -40,3 +40,7 @@ function parseNhl(data) {
 function parseWeather(data) {
 
 }
+
+function parseMlb(data) {
+    
+}
