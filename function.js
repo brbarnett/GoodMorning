@@ -2,8 +2,15 @@ var _ = require('lodash'),
     http = require('http'),
     request = require('request');
 
-var nhlSchedule = new Promise((resolve, reject) => {
-    request('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-02-19&endDate=2017-02-19', (error, response, json) => {
+var config = require('./config');
+
+var getNhl = new Promise((resolve, reject) => {
+    if (!config.feeds.nhl.enabled) {
+        resolve(null);
+        return;
+    }
+
+    request(config.feeds.nhl.url, (error, response, json) => {
         if (error || response.statusCode != 200)
             reject(error);
 
@@ -11,15 +18,15 @@ var nhlSchedule = new Promise((resolve, reject) => {
     })
 });
 
+var getWeather = Promise.resolve(4);
 
-var weather = Promise.resolve(4);
-
-Promise.all([nhlSchedule, weather]).then(values => {
+Promise.all([getNhl, getWeather]).then(values => {
     parseNhl(values[0]);
     parseWeather(values[1]);
 });
 
 function parseNhl(data) {
+    if (data === null) return;
     if (data.totalGames <= 0) return;
 
     var today = data.dates[0];
@@ -42,5 +49,5 @@ function parseWeather(data) {
 }
 
 function parseMlb(data) {
-    
+
 }
