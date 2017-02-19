@@ -4,25 +4,31 @@ var _ = require('lodash'),
 
 var config = require('./config');
 
-var getNhl = new Promise((resolve, reject) => {
-    if (!config.feeds.nhl.enabled) {
-        resolve(null);
-        return;
-    }
+var feedPromises = [
+    createFeedPromise(config.feeds.nhl)
+];
 
-    request(config.feeds.nhl.url, (error, response, json) => {
-        if (error || response.statusCode != 200)
-            reject(error);
+function createFeedPromise(feed) {
+    return new Promise((resolve, reject) => {
+        if (!feed.enabled) {
+            resolve(null);
+            return;
+        }
 
-        resolve(JSON.parse(json));
-    })
-});
+        request(feed.url, (error, response, json) => {
+            if (error || response.statusCode != 200)
+                reject(error);
+
+            resolve(JSON.parse(json));
+        })
+    });
+}
 
 var getWeather = Promise.resolve(4);
 
-Promise.all([getNhl, getWeather]).then(values => {
-    parseNhl(values[0]);
-    parseWeather(values[1]);
+Promise.all(feedPromises).then(values => {
+    var nhl = parseNhl(values[0]);
+    //parseWeather(values[1]);
 });
 
 function parseNhl(data) {
