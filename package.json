@@ -1,0 +1,15 @@
+{
+  "name": "good-morning",
+  "version": "1.0.0",
+  "description": "NHL schedule link: https://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-02-18&endDate=2017-02-23",
+  "main": "function.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "request": "^2.79.0"
+  }
+}
