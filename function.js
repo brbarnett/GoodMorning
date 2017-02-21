@@ -24,6 +24,10 @@ function createFeedPromise(feed) {
     });
 }
 
+var users = _(config.users)
+    .filter(x => x.enabled)
+    .value();
+
 var getWeather = Promise.resolve(4);
 
 Promise.all(feedPromises).then(values => {

@@ -9,7 +9,7 @@ module.exports = {
         {
             enabled: true,
             mobile: '+18475089028',
-            name: 'Brandon Barnett'
+            name: 'Brandon R Barnett'
         },
         {
             enabled: false,
