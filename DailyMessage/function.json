@@ -10,8 +10,8 @@
         {
             "name": "queueItem",
             "queueName": "outbound-sms",
-            "type": "queueTrigger",
-            "direction": "in"
+            "type": "queue",
+            "direction": "out"
         }
     ]
 }
