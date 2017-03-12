@@ -1,12 +1,12 @@
 module.exports = {
     feeds: {
         nhl: {
-            enabled: false,
-            url: 'https://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-03-12&endDate=2017-03-13'
+            enabled: true,
+            url: 'https://statsapi.web.nhl.com/api/v1/schedule?startDate={0}&endDate={1}'    // yyyy-mm-dd
         },
         weather: {
             enabled: true,
-            url: 'https://api.wunderground.com/api/7a30ee5361a106cd/forecast/q/60657.json'
+            url: 'https://api.wunderground.com/api/7a30ee5361a106cd/forecast/q/{0}.json'
         }
     },
     users: [
@@ -18,24 +18,24 @@ module.exports = {
                 {
                     enabled: true,
                     name: 'nhl',
-                    teams: [ 17, 30 ]   // Red Wings
+                    teams: [ 17 ]   // 17 = Red Wings
                 },
                 {
                     enabled: true,
                     name: 'weather',
-                    zipCodes: [ 60657 ] // Wrigleyville
+                    zipCodes: [ 60657 ]
                 }
             ]
         },
         {
-            enabled: true,
+            enabled: false,
             mobile: '+17347304495',
             name: 'Anna Barnett',
             feeds: [
                 {
                     enabled: true,
-                    name: 'nhl',
-                    teams: [ 30 ]   // Wild
+                    name: 'weather',
+                    zipCodes: [ 60657 ]
                 }
             ]
         }

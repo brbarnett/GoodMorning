@@ -1,13 +1,14 @@
 let _ = require('lodash'),
-    dataService = require('../services/dataService');
+    config = require('../config'),
+    dataService = require('../services/dataService'),
+    moment = require('moment');
 
 module.exports = {
     getFeedData: getFeedData
 }
 
-function getContent(games, options) {  
+function getContent(games, options) {
     let userGames = _(games)
-        .chain()
         .filter(x =>
             options.teams.includes(x.teams.home.team.id) ||
             options.teams.includes(x.teams.away.team.id))
@@ -20,15 +21,17 @@ function getContent(games, options) {
     return _(userGames)
         .map(game => {
             let gameTime = new Date(game.gameDate);
-            return `${game.teams.away.team.name} @ ${game.teams.home.team.name}, ${gameTime}`;
+            return `NHL: ${game.teams.away.team.name} @ ${game.teams.home.team.name}, ${gameTime}`;
         })
         .value();
 }
 
 function getFeedData(feed) {
+    let today = moment();
+    let feedUrl = config.feeds.nhl.url.format(today.format('YYYY-MM-DD'), today.add(1, 'days').format('YYYY-MM-DD'));
     return new Promise((resolve, reject) => {
         dataService
-            .createFeedPromise(feed)
+            .createFeedPromise(feed, feedUrl)
             .then(data => {
                 let games = parseGames(data);
                 resolve(getContent(games, feed));

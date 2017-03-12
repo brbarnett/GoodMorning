@@ -1,7 +1,7 @@
 let request = require('request'),
     config = require('../config');
 
-let createFeedPromise = (feed) => {
+let createFeedPromise = (feed, url) => {
     let feedConfig = config.feeds[feed.name];
 
     return new Promise((resolve, reject) => {
@@ -10,7 +10,7 @@ let createFeedPromise = (feed) => {
             return;
         }
 
-        request(feedConfig.url, (error, response, json) => {
+        request(url, (error, response, json) => {
             if (error || response.statusCode != 200)
                 reject(error);
 
