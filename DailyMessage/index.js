@@ -38,7 +38,11 @@ module.exports = function (context, timer) {
                     .flatten()
                     .value();
 
-                context.message.add(_.join(items, '\n'));
+                context.bindings.message = [];
+                context.bindings.message.push = {
+                    body: _.join(items, '\n'),
+                    to: user.mobile
+                };
             });
         });
 
