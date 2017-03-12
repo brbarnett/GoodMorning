@@ -18,7 +18,7 @@ module.exports = {
                 {
                     enabled: true,
                     name: 'nhl',
-                    teams: [ 17 ]   // Red Wings
+                    teams: [ 17, 30 ]   // Red Wings
                 },
                 {
                     enabled: false,
@@ -28,9 +28,16 @@ module.exports = {
             ]
         },
         {
-            enabled: false,
+            enabled: true,
             mobile: '+17347304495',
-            name: 'Anna Barnett'
+            name: 'Anna Barnett',
+            feeds: [
+                {
+                    enabled: true,
+                    name: 'nhl',
+                    teams: [ 30 ]   // Wild
+                }
+            ]
         }
     ]
 }
