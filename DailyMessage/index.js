@@ -19,7 +19,7 @@ let config = require('./config'),
 
 module.exports = function (context, timer) {
     context.bindings.queueItem = [];
-    
+
     // get all enabled users
     let enabledUsers = _(config.users)
         .filter(user => user.enabled)
@@ -50,5 +50,6 @@ module.exports = function (context, timer) {
             });
         });
 
+    context.log('Finished');
     context.done();
 };
