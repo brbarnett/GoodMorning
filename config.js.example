@@ -6,32 +6,20 @@ module.exports = {
         },
         weather: {
             enabled: true,
-            url: 'https://api.wunderground.com/api/7a30ee5361a106cd/forecast/q/{0}.json'
+            url: 'https://api.wunderground.com/api/{1}/forecast/q/{0}.json'
         }
     },
     users: [
         {
             enabled: true,
-            mobile: '+18475089028',
-            name: 'Brandon R Barnett',
+            mobile: '+18885551212',
+            name: 'Jane Doe',
             feeds: [
                 {
                     enabled: true,
                     name: 'nhl',
                     teams: [ 17 ]   // 17 = Red Wings
                 },
-                {
-                    enabled: true,
-                    name: 'weather',
-                    zipCodes: [ 60657 ]
-                }
-            ]
-        },
-        {
-            enabled: false,
-            mobile: '+17347304495',
-            name: 'Anna Barnett',
-            feeds: [
                 {
                     enabled: true,
                     name: 'weather',
