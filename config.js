@@ -1,12 +1,12 @@
 module.exports = {
     feeds: {
         nhl: {
-            enabled: true,
+            enabled: false,
             url: 'https://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-03-12&endDate=2017-03-13'
         },
         weather: {
-            enabled: false,
-            url: ''
+            enabled: true,
+            url: 'https://api.wunderground.com/api/7a30ee5361a106cd/forecast/q/60657.json'
         }
     },
     users: [
@@ -21,7 +21,7 @@ module.exports = {
                     teams: [ 17, 30 ]   // Red Wings
                 },
                 {
-                    enabled: false,
+                    enabled: true,
                     name: 'weather',
                     zipCodes: [ 60657 ] // Wrigleyville
                 }

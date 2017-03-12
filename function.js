@@ -3,7 +3,8 @@ let _ = require('lodash');
 // specific application imports
 let config = require('./config'),
     feeds = {
-        nhl: require('./feeds/nhl')
+        nhl: require('./feeds/nhl'),
+        weather: require('./feeds/weather')
     };
 
 // get all enabled users
