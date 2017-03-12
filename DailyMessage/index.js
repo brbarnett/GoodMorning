@@ -1,5 +1,4 @@
-let _ = require('lodash'),
-    twilio = require('twilio');
+let _ = require('lodash');
 
 // string.format
 if (!String.prototype.format) {
@@ -19,6 +18,8 @@ let config = require('./config'),
     };
 
 module.exports = function (context, timer) {
+    context.bindings.queueItem = [];
+    
     // get all enabled users
     let enabledUsers = _(config.users)
         .filter(user => user.enabled)
@@ -41,11 +42,11 @@ module.exports = function (context, timer) {
                 let message = _.join(items, '\n');
                 context.log(user.mobile, message);
 
-                context.bindings.message = [];
-                context.bindings.message.push = {
+                // push to queue
+                context.bindings.queueItem.push({
                     body: message,
                     to: user.mobile
-                };
+                });
             });
         });
 

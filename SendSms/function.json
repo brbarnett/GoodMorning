@@ -1,0 +1,19 @@
+{
+    "disabled": false,
+    "bindings": [
+        {
+            "name": "queueItem",
+            "queueName": "outbound-sms",
+            "type": "queueTrigger",
+            "direction": "in"
+        },
+        {
+            "type": "twilioSms",
+            "name": "message",
+            "accountSid": "TwilioAccountSid",
+            "authToken": "TwilioAuthToken",
+            "from": "+18475089028",
+            "direction": "out"
+        }
+    ]
+}
