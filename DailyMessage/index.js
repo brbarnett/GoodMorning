@@ -36,6 +36,6 @@ _(enabledUsers)
                 .flatten()
                 .value();
 
-            console.log(`${user.name}: ${items}`);
+            console.log(`${user.mobile}: ${_.join(items, '\n')}`);
         });
     });

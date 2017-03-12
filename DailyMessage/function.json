@@ -1,0 +1,19 @@
+{
+  "disabled": false,
+  "bindings": [
+    {
+      "name": "timer",
+      "type": "timerTrigger",
+      "direction": "in",
+      "schedule": "0 0 7 * * *"
+    },
+    {
+      "type": "twilioSms",
+      "name": "message",
+      "accountSid": "TwilioAccountSid",
+      "authToken": "TwilioAuthToken",
+      "from": "+18475089028",
+      "direction": "out"
+    }
+  ]
+}
