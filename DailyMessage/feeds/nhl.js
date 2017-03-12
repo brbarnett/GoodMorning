@@ -20,7 +20,7 @@ function getContent(games, options) {
 
     return _(userGames)
         .map(game => {
-            let gameTime = new Date(game.gameDate);
+            let gameTime = moment(game.gameDate).format('hh:mma');
             return `NHL: ${game.teams.away.team.name} @ ${game.teams.home.team.name}, ${gameTime}`;
         })
         .value();
