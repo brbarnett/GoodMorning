@@ -6,7 +6,7 @@ module.exports = {
         },
         weather: {
             enabled: true,
-            url: 'https://api.wunderground.com/api/{1}/forecast/q/{0}.json'
+            url: 'https://api.wunderground.com/api/{api-key}/forecast/q/{0}.json'
         }
     },
     users: [
@@ -26,6 +26,7 @@ module.exports = {
                     zipCodes: [ 60657 ]
                 }
             ]
-        }
+        },
+
     ]
 }
