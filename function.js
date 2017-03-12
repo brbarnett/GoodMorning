@@ -1,63 +1,24 @@
-var _ = require('lodash'),
-    http = require('http'),
-    request = require('request');
+let _ = require('lodash');
 
-var config = require('./config');
+let config = require('./config'),
+    feeds = {
+        nhl: require('./feeds/nhl')
+    };
 
-var feedPromises = [
-    createFeedPromise(config.feeds.nhl)
-];
-
-function createFeedPromise(feed) {
-    return new Promise((resolve, reject) => {
-        if (!feed.enabled) {
-            resolve(null);
-            return;
-        }
-
-        request(feed.url, (error, response, json) => {
-            if (error || response.statusCode != 200)
-                reject(error);
-
-            resolve(JSON.parse(json));
-        })
-    });
-}
-
-var users = _(config.users)
-    .filter(x => x.enabled)
+let enabledUsers = _(config.users)
+    .filter(user => user.enabled)
     .value();
 
-var getWeather = Promise.resolve(4);
+_(enabledUsers)
+    .forEach((user) => {
+        let feedPromises = _(user.feeds)
+            .filter(feed => feed.enabled)
+            .map(feed => feeds[feed.name].getFeedData(feed))
+            .value();
 
-Promise.all(feedPromises).then(values => {
-    var nhl = parseNhl(values[0]);
-    //parseWeather(values[1]);
-});
+        Promise.all(feedPromises).then(values => {
+            let items = _(values).flatten().value();
 
-function parseNhl(data) {
-    if (data === null) return;
-    if (data.totalGames <= 0) return;
-
-    var today = data.dates[0];
-    if (today.length <= 0) return;
-
-    var wingsGame = _(today.games)
-        .chain()
-        .find(x => x.teams.home.team.id === 17 || x.teams.away.team.id === 17)
-        .value();
-
-    if (typeof wingsGame === 'undefined') return;
-
-    var gameTime = new Date(wingsGame.gameDate);
-
-    console.log(`${wingsGame.teams.away.team.name} @ ${wingsGame.teams.home.team.name}, ${gameTime}`)
-}
-
-function parseWeather(data) {
-
-}
-
-function parseMlb(data) {
-
-}
+            console.log(items);
+        });
+    });
