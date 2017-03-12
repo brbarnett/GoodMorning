@@ -1,4 +1,5 @@
-let _ = require('lodash');
+let _ = require('lodash'),
+    moment = require('moment');
 
 // string.format
 if (!String.prototype.format) {
@@ -42,7 +43,7 @@ module.exports = function (context) {
                             .flatten()
                             .value();
 
-                        let message = _.join(items, '\n');
+                        let message = moment().format('dddd, MMMM Do') + '\n\n' + _.join(items, '\n\n');
                         context.log(user.mobile, message);
 
                         // push to queue
