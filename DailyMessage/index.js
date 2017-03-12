@@ -1,4 +1,5 @@
-let _ = require('lodash');
+let _ = require('lodash'),
+    twilio = require('twilio');
 
 // string.format
 if (!String.prototype.format) {
@@ -17,25 +18,29 @@ let config = require('./config'),
         weather: require('./feeds/weather')
     };
 
-// get all enabled users
-let enabledUsers = _(config.users)
-    .filter(user => user.enabled)
-    .value();
+module.exports = function (context, timer) {
+    // get all enabled users
+    let enabledUsers = _(config.users)
+        .filter(user => user.enabled)
+        .value();
 
-// for each user, get all enabled feeds and return content
-_(enabledUsers)
-    .forEach((user) => {
-        let feedPromises = _(user.feeds)
-            .filter(feed => feed.enabled)
-            .map(feed => feeds[feed.name].getFeedData(feed))
-            .flatten()
-            .value();
-
-        Promise.all(feedPromises).then(values => {
-            let items = _(values)
+    // for each user, get all enabled feeds and return content
+    _(enabledUsers)
+        .forEach((user) => {
+            let feedPromises = _(user.feeds)
+                .filter(feed => feed.enabled)
+                .map(feed => feeds[feed.name].getFeedData(feed))
                 .flatten()
                 .value();
 
-            console.log(`${user.mobile}: ${_.join(items, '\n')}`);
+            Promise.all(feedPromises).then(values => {
+                let items = _(values)
+                    .flatten()
+                    .value();
+
+                context.message.add(_.join(items, '\n'));
+            });
         });
-    });
+
+    context.done();
+};
