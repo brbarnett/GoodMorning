@@ -20,7 +20,7 @@ function getContent(games, options) {
 
     return _(userGames)
         .map(game => {
-            let gameTime = moment(game.gameDate).format('hh:mma');
+            let gameTime = moment(game.gameDate).tz('America/Chicago').format('hh:mma z');
             return `NHL: ${game.teams.away.team.name} @ ${game.teams.home.team.name}, ${gameTime}`;
         })
         .value();
