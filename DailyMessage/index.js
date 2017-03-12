@@ -17,7 +17,7 @@ let config = require('./config'),
         weather: require('./feeds/weather')
     };
 
-module.exports = function (context, timer) {
+module.exports = function (context) {
     context.bindings.queueItem = [];
 
     // get all enabled users
@@ -26,6 +26,7 @@ module.exports = function (context, timer) {
         .value();
 
     // for each user, get all enabled feeds and return content
+    let promises = [];
     _(enabledUsers)
         .forEach((user) => {
             let feedPromises = _(user.feeds)
@@ -34,22 +35,32 @@ module.exports = function (context, timer) {
                 .flatten()
                 .value();
 
-            Promise.all(feedPromises).then(values => {
-                let items = _(values)
-                    .flatten()
-                    .value();
+            promises.push(new Promise(resolve => {
+                Promise.all(feedPromises)
+                    .then(values => {
+                        let items = _(values)
+                            .flatten()
+                            .value();
 
-                let message = _.join(items, '\n');
-                context.log(user.mobile, message);
+                        let message = _.join(items, '\n');
+                        context.log(user.mobile, message);
 
-                // push to queue
-                context.bindings.queueItem.push({
-                    body: message,
-                    to: user.mobile
-                });
-            });
+                        // push to queue
+                        context.bindings.queueItem.push({
+                            body: message,
+                            to: user.mobile
+                        });
+                    })
+                    .then(() => {
+                        resolve();  // resolve promise
+                    });
+            }))
         });
 
-    context.log('Finished');
-    context.done();
+    // wait until all users are processed
+    Promise.all(promises)
+        .then(() => {
+            context.log('Finished');
+            context.done();
+        });
 };
